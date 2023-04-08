@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './course/course.module';
 import { AttendanceModule } from './attendance/attendance.module';
 import { EvaluationModule } from './evaluation/evaluation.module';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { EvaluationModule } from './evaluation/evaluation.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: ['src/**/*.entity{.ts,.js}'],
+      entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       synchronize: true,
     }),
     UserModule,
