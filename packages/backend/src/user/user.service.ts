@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRepository } from './user.repository';
-import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(UserRepository)
-    private userRepository: UserRepository,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async createUser(userData: Partial<User>): Promise<User> {
@@ -34,6 +34,19 @@ export class UserService {
     return await this.userRepository.findOne({ where: { email } });
   }
 
+  async createAdmin(createAdminDto): Promise<User> {
+    const user = new User();
+    user.email = createAdminDto.email;
+    user.password = createAdminDto.password;
+    user.isAdmin = true; // 设置isAdmin为true，表示管理员
+    // ...其他属性
+
+    // 对密码进行哈希处理
+    user.password = await bcrypt.hash(user.password, 10);
+
+    return this.userRepository.save(user);
+  }
+
   async validateUser(email: string, password: string): Promise<User> {
     const user = await this.findOneByEmail(email);
 
@@ -42,5 +55,14 @@ export class UserService {
     } else {
       return null;
     }
+  }
+
+  async changePassword(id: number, newPassword: string): Promise<boolean> {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const result = await this.userRepository.update(
+      { id },
+      { password: hashedPassword },
+    );
+    return result.affected > 0;
   }
 }

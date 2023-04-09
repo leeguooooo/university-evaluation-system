@@ -3,5 +3,19 @@ import { Course } from './course.entity';
 
 @EntityRepository(Course)
 export class CourseRepository extends Repository<Course> {
-  // 在这里添加自定义的数据库操作方法，如有需要
+  findAll(): Promise<Course[]> {
+    return this.find();
+  }
+
+  createCourse(course: Course): Promise<Course> {
+    return this.save(course);
+  }
+
+  updateCourse(id: number, course: Course): Promise<Course> {
+    return this.save({ ...course, id });
+  }
+
+  deleteCourse(id: number): Promise<void> {
+    return this.delete(id).then(() => {});
+  }
 }

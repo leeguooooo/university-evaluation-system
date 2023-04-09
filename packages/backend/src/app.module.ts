@@ -7,6 +7,7 @@ import { CourseModule } from './course/course.module';
 import { AttendanceModule } from './attendance/attendance.module';
 import { EvaluationModule } from './evaluation/evaluation.module';
 import { join } from 'path';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { join } from 'path';
     CourseModule,
     AttendanceModule,
     EvaluationModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [],
