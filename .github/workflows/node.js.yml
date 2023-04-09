@@ -26,7 +26,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
       - run: npm install -g pnpm
-      - run: echo "$(npm bin -g)" >> $GITHUB_PATH # Add pnpm to PATH
+      - run: echo "$(pnpm env use --global)" >> $GITHUB_ENV # Add pnpm to PATH
       - run: pnpm install
       - run: pnpm run build --if-present
       - name: Deploy to Vercel
