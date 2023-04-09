@@ -4,5 +4,11 @@
   "devDependencies": {
     "lerna": "^6.6.1"
   },
-  "license": "UNLICENSED"
+  "scripts": {
+    "deploy": "vercel --prod"
+  },
+  "license": "UNLICENSED",
+  "workspaces": [
+    "packages/*"
+  ]
 }
