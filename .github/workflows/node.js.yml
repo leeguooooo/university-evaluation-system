@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
       - uses: actions/checkout@v3
@@ -24,10 +24,10 @@ jobs:
           version: 7.30.3
       - uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "16"
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - run: pnpm recursive run build --if-present
+      - run: cd packages/backend && pnpm run build
       - name: Deploy to Vercel
         run: npx vercel --token ${VERCEL_TOKEN} --prod
         env:

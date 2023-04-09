@@ -1,16 +1,30 @@
 {
   "version": 2,
-  "name": "university-evaluation-system-u3ho",
-  "builds": [
+  "name": "university-evaluation-system",
+  "projects": [
     {
-      "src": "dist/main.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
+      "name": "frontend",
+      "root": "packages/frontend",
+      "build": {
+        "env": {
+          "NODE_ENV": "production"
+        }
+      }
+    },
     {
-      "src": "/(.*)",
-      "dest": "dist/main.js"
+      "name": "backend",
+      "root": "packages/backend",
+      "build": {
+        "env": {
+          "NODE_ENV": "production"
+        }
+      },
+      "routes": [
+        {
+          "src": "/(.*)",
+          "dest": "/api/$1"
+        }
+      ]
     }
   ]
 }
