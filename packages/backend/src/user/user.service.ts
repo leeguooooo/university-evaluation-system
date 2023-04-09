@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { User, UserRole } from './user.entity';
 
 @Injectable()
 export class UserService {
@@ -23,11 +23,19 @@ export class UserService {
 
   async updateUser(id: number, userData: Partial<User>): Promise<User> {
     await this.userRepository.update(id, userData);
-    return await this.userRepository.findOne({ where: { id } });
+    const user = await this.userRepository.findOne({ where: { id } });
+    delete user.password;
+    return user;
   }
 
-  async deleteUser(id: number): Promise<void> {
+  async deleteUser(id: number): Promise<any> {
     await this.userRepository.delete(id);
+    return {
+      isSuccessful: true,
+      data: {
+        id,
+      },
+    };
   }
 
   async findOneByEmail(email: string): Promise<User> {
@@ -49,7 +57,6 @@ export class UserService {
 
   async validateUser(email: string, password: string): Promise<User> {
     const user = await this.findOneByEmail(email);
-
     if (user && (await bcrypt.compare(password, user.password))) {
       return user;
     } else {
@@ -64,5 +71,12 @@ export class UserService {
       { password: hashedPassword },
     );
     return result.affected > 0;
+  }
+
+  async findAllUsers(): Promise<User[]> {
+    return await this.userRepository.find({
+      where: { role: UserRole.User },
+      select: ['id', 'email', 'username', 'role', 'firstName', 'lastName'],
+    });
   }
 }

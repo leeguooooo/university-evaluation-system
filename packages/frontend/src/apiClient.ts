@@ -23,7 +23,7 @@ export const apiClient = async (
   };
 
   if (accessToken) {
-    headers["Authorization"] = `Bearer ${accessToken};`;
+    headers["Authorization"] = `Bearer ${accessToken}`;
   }
 
   const response = await fetch(`${API_BASE_URL}${url}`, {
@@ -58,4 +58,12 @@ const camelCaseKeys = (obj: any): any => {
     return newObj;
   }
   return obj;
+};
+
+export const getCurrentUser = async () => {
+  const response = await apiClient("/auth/me");
+  if (response) {
+    return response;
+  }
+  return null;
 };

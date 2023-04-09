@@ -23,7 +23,7 @@ const Login = () => {
       console.log(data);
       // 判断登录是否成功
       if (!data.accessToken) {
-        toast.error("登录失败");
+        toast.error(data?.message || "登录失败");
       } else {
         localStorage.setItem("accessToken", data.accessToken);
         // 这里可以实现登录成功后的跳转逻辑，例如：

@@ -20,7 +20,7 @@ import { AdminModule } from './admin/admin.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-      synchronize: true,
+      synchronize: false, // 设置为 false 以保留数据
     }),
     UserModule,
     AuthModule,

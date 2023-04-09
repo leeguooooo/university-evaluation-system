@@ -33,7 +33,12 @@ export class UserController {
   }
 
   @Delete(':id')
-  async deleteUser(@Param('id') id: number): Promise<void> {
-    await this.userService.deleteUser(id);
+  async deleteUser(@Param('id') id: number): Promise<any> {
+    return await this.userService.deleteUser(id);
+  }
+
+  @Get('')
+  async findAllUsers(): Promise<User[]> {
+    return await this.userService.findAllUsers();
   }
 }
