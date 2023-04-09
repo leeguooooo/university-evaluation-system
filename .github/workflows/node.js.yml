@@ -26,6 +26,8 @@ jobs:
         with:
           node-version: "14"
           cache: "pnpm"
+      - name: Change working directory
+        run: cd packages/backend
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm run build --if-present
