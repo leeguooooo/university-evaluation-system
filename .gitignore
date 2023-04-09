@@ -1,3 +1,5 @@
 node_modules/
 dist/
 /packages/backend/dist/
+.vercel
+packages/backend/.env
