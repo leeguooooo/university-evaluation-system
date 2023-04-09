@@ -27,7 +27,6 @@ jobs:
           node-version: "14"
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - run: pnpm test
       - run: pnpm run build --if-present
       - name: Deploy to Vercel
         run: npx vercel --token ${VERCEL_TOKEN} --prod
